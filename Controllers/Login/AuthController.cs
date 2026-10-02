@@ -19,12 +19,13 @@ namespace Employee_Management.Controllers.Login
         [HttpPost("Login")]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
-            try { 
-            
+            try
+            {
+
                 var userName = loginDto.UserName;
                 var password = loginDto.Password;
 
-                if(userName != "admin" && password != "admin123") 
+                if (userName != "admin" || password != "admin123")
                 {
                     return BadRequest("Enter Valid Username & Password");
                 }
@@ -37,6 +38,6 @@ namespace Employee_Management.Controllers.Login
             {
                 return BadRequest(ex.Message);
             }
-}
-}
+        }
+    }
 }

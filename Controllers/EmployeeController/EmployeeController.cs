@@ -22,7 +22,7 @@ namespace Employee_Management.Controllers.EmployeeController
 
         
         [HttpGet]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> GetAllEmployee([FromQuery]PaginationPageDto pagination)
         {
             try

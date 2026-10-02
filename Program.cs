@@ -1,13 +1,21 @@
+
+#pragma warning disable OPENAI001
+
 using Employee_Management.Data;
 using Employee_Management.Repo.Interface;
 using Employee_Management.Repo.Repository;
 using Employee_Management.Services.Interface;
 using Employee_Management.Services.Repository;
+using EmployeeMgmt_API.Repo.Interface.AI;
+using EmployeeMgmt_API.Repo.Repository.AI;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Protocols.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using OpenAI.Responses;
 using System.Text;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,6 +61,18 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConn")));
 
 builder.Services.AddScoped<IEmployee, EmployeeRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IAIService, AIServiceRepository>();
+
+builder.Services.AddSingleton<ResponsesClient>(sp =>
+{
+    var ApiKey = builder.Configuration["OpenAI:ApiKey"];
+
+    if (string.IsNullOrEmpty(ApiKey))
+    {
+        throw new InvalidOperationException("Open AI Is Not configured");
+    }
+    return new ResponsesClient(ApiKey);
+});
 
 
 builder.Services.AddCors(options =>
