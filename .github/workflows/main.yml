@@ -27,5 +27,8 @@ jobs:
       - name: Build
         run: dotnet build EmployeeMgmt_API.csproj --no-restore --configuration Release
 
+      - name: Publish
+        run: dotnet publish EmployeeMgmt_API.csproj -c Release -o ./publish
+
       - name: Test
         run: dotnet test EmployeeMgmt_API.csproj --no-build --configuration Release
