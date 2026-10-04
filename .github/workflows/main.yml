@@ -32,3 +32,9 @@ jobs:
 
       - name: Test
         run: dotnet test EmployeeMgmt_API.csproj --no-build --configuration Release
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: EmployeeManagement-API
+          path: ./publish  
